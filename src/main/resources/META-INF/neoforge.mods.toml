@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+issueTrackerURL="https://github.com/Mrbysco/EnhancedAnvils/issues"
+license="MIT"
+
+[[mods]]
+modId="enhancedanvils"
+version="${file.jarVersion}"
+displayName="Enhanced Anvils"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/enhanced-anvils"
+authors="ShyNieke, Mrbysco"
+description='''
+Allows you to use colors / fonts and set lore when renaming items in an anvil.
+'''
+[[dependencies.enhancedanvils]]
+modId="minecraft"
+type="required"
+versionRange="[1.21,1.22)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.enhancedanvils]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.1,)"
+ordering="NONE"
+side="BOTH"
+[[mixins]]
+config="enhancedanvils.mixins.json"

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "enhancedanvils",
+  "version": "${version}",
+  "name": "Enhanced Anvils",
+  "description": "Allows you to use colors / fonts and set lore when renaming items in an anvil.",
+  "authors": [
+    "Mrbysco", "ShyNieke"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/enhanced-anvils",
+    "sources": "https://github.com/Mrbysco/EnhancedAnvils",
+    "issues": "https://github.com/Mrbysco/EnhancedAnvils/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.mrbysco.enhancedanvils.EnhancedAnvilsFabric"
+    ],
+    "client": [
+      "com.mrbysco.enhancedanvils.EnhancedAnvilsFabricClient"
+    ]
+  },
+  "mixins": [
+    "enhancedanvils.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "accessWidener": "enhancedanvils.accesswidener"
+}
+  

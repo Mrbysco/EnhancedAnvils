@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_21",
+  "package": "com.mrbysco.enhancedanvils.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "target": "@env(DEFAULT)",
+  "mixins": [
+    "AnvilMenuMixin"
+  ],
+  "client": [
+    "AnvilScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

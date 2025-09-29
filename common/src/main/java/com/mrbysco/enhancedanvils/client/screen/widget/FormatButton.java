@@ -1,13 +1,13 @@
 package com.mrbysco.enhancedanvils.client.screen.widget;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,18 +27,14 @@ public class FormatButton extends Button {
 	@Override
 	protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
 		Minecraft minecraft = Minecraft.getInstance();
-		guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-		RenderSystem.enableBlend();
-		RenderSystem.enableDepthTest();
-		guiGraphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		if (this.chatFormatting.isColor()) {
 			Integer color = this.chatFormatting.getColor();
 			if (color != null) {
 				if (!this.isActive()) {
-					color = FastColor.ARGB32.color(120, FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color));
+					color = ARGB.color(120, ARGB.red(color), ARGB.green(color), ARGB.blue(color));
 				} else {
-					color = FastColor.ARGB32.opaque(color);
+					color = ARGB.opaque(color);
 				}
 				guiGraphics.fill(this.getX() + 2, this.getY() + 2,
 						this.getX() + this.getWidth() - 2, this.getY() + this.getHeight() - 2, color);

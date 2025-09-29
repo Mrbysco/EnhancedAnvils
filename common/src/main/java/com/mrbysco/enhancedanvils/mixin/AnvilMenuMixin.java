@@ -1,6 +1,5 @@
 package com.mrbysco.enhancedanvils.mixin;
 
-import com.llamalad7.mixinextras.sugar.Local;
 import com.mrbysco.enhancedanvils.util.CustomStringUtil;
 import com.mrbysco.enhancedanvils.util.TextHelper;
 import com.mrbysco.enhancedanvils.util.TextLore;
@@ -9,11 +8,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.ItemCombinerMenu;
+import net.minecraft.world.inventory.ItemCombinerMenuSlotDefinition;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemLore;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,8 +32,12 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	@Nullable
 	private String itemName;
 
-	public AnvilMenuMixin(@Nullable MenuType<?> type, int containerId, Inventory playerInventory, ContainerLevelAccess access) {
-		super(type, containerId, playerInventory, access);
+	@Shadow
+	@Final
+	private DataSlot cost;
+
+	public AnvilMenuMixin(@Nullable MenuType<?> menuType, int containerId, Inventory inventory, ContainerLevelAccess access, ItemCombinerMenuSlotDefinition slotDefinition) {
+		super(menuType, containerId, inventory, access, slotDefinition);
 	}
 
 	@ModifyArg(method = "setItemName(Ljava/lang/String;)Z",
@@ -67,19 +73,15 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	}
 
 	@Inject(method = "createResult()V",
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/inventory/DataSlot;set(I)V",
-					ordinal = 0,
-					shift = At.Shift.AFTER
-			), cancellable = true
+			at = @At(value = "HEAD"), cancellable = true
 	)
 	public void colorfulanvils$createResult(CallbackInfo ci) {
-        ItemStack itemstack = this.inputSlots.getItem(0);
+		ItemStack itemstack = this.inputSlots.getItem(0);
 		if (this.inputSlots.getItem(1).isEmpty() && itemName != null && TextLore.hasFormatting(itemName)) {
 			ItemStack itemstack1 = itemstack.copy();
 			if (TextHelper.loreChanged(itemstack1.getOrDefault(DataComponents.LORE, ItemLore.EMPTY), itemName)) {
 				TextHelper.setLore(itemstack1, itemName);
+				this.cost.set(1);
 				this.resultSlots.setItem(0, itemstack1);
 				ci.cancel();
 			}

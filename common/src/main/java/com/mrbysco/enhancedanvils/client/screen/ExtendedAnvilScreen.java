@@ -15,6 +15,7 @@ import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 
@@ -54,8 +55,8 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 		this.name.setMaxLength(50);
 		this.name.setResponder(this::onNameChanged);
 		this.name.setValue("");
-		this.addWidget(this.name);
-		this.name.setEditable(menu.getSlot(0).hasItem());
+		this.addRenderableWidget(this.name);
+		this.name.setEditable(this.menu.getSlot(0).hasItem());
 
 		// Add hamburger menu button on left side of UI
 		this.menuButton = new Button.Builder(Component.literal("☰"), (button) -> {
@@ -113,6 +114,7 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 						if (lore != null) {
 							this.name.setValue(lore.toString() + fontType + strippedText.substring(2));
 							this.setFocused(this.name);
+						} else {
 							this.name.setValue(fontType + strippedText);
 						}
 					} else {
@@ -183,9 +185,9 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 		if (buttonsVisible && menu.getSlot(0).hasItem() && this.name instanceof ComponentEditBox box) {
 			if (!box.isVisible()) return;
 			Component adjustedValue = TextHelper.changeFont(box.getFinalValue());
-			TooltipRenderUtil.renderTooltipBackground(guiGraphics, box.getX() - 58, box.getY() - 40, 168, this.font.lineHeight, 0);
+			TooltipRenderUtil.renderTooltipBackground(guiGraphics, box.getX() - 58, box.getY() - 40, 168, this.font.lineHeight, null);
 			StringRenderHelper.drawScrollingString(guiGraphics, this.font, adjustedValue,
-					box.getX() - 58, box.getX() + 110, box.getY() - 40, -1
+					box.getX() - 58, box.getX() + 110, box.getY() - 40, ARGB.opaque(-1)
 			);
 		}
 	}

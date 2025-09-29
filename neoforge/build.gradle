@@ -35,6 +35,8 @@ neoForge {
             //Limit ram usage for the dev environment to 4GB
             jvmArguments.add('-Xmx4G')
 
+            jvmArguments.add('-Dmixin.debug.export=true')
+
             if (model.project.javaToolchains.launcherFor(java.toolchain).map { it.metadata.vendor }.getOrElse("").contains("JetBrains")) {
                 jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
             }

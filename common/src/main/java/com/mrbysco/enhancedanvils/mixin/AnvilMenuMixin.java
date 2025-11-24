@@ -49,7 +49,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 					value = "INVOKE",
 					target = "Lnet/minecraft/world/item/ItemStack;set(Lnet/minecraft/core/component/DataComponentType;Ljava/lang/Object;)Ljava/lang/Object;"),
 			index = 1)
-	private Object colorfulanvils$setItemName(Object value) {
+	private Object enhancedanvils$setItemName(Object value) {
 		if (value instanceof Component component) {
 			component = TextHelper.changeFont(component);
 			return component;
@@ -58,7 +58,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	}
 
 	@Inject(method = "setItemName(Ljava/lang/String;)Z", at = @At(value = "HEAD"), cancellable = true)
-	public void colorfulanvils$setItemName2(String itemName, CallbackInfoReturnable<Boolean> cir) {
+	public void enhancedanvils$setItemName2(String itemName, CallbackInfoReturnable<Boolean> cir) {
 		if (TextLore.hasFormatting(itemName)) {
 			this.itemName = itemName;
 			if (this.getSlot(2).hasItem()) {
@@ -75,7 +75,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	@Inject(method = "createResult()V",
 			at = @At(value = "HEAD"), cancellable = true
 	)
-	public void colorfulanvils$createResult(CallbackInfo ci) {
+	public void enhancedanvils$createResult(CallbackInfo ci) {
 		ItemStack itemstack = this.inputSlots.getItem(0);
 		if (this.inputSlots.getItem(1).isEmpty() && itemName != null && TextLore.hasFormatting(itemName)) {
 			ItemStack itemstack1 = itemstack.copy();
@@ -90,7 +90,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
 	@Inject(method = "validateName(Ljava/lang/String;)Ljava/lang/String;",
 			at = @At(value = "HEAD"), cancellable = true)
-	private static void colorfulanvils$validateName(String itemName, CallbackInfoReturnable<String> cir) {
+	private static void enhancedanvils$validateName(String itemName, CallbackInfoReturnable<String> cir) {
 		String s = CustomStringUtil.filterText(itemName);
 		cir.setReturnValue(CustomStringUtil.fullyFiltered(s).length() <= 50 ? TextLore.stripFormatting(s) : null);
 	}

@@ -2,6 +2,7 @@ package com.mrbysco.enhancedanvils.util;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemLore;
@@ -28,7 +29,7 @@ public class TextHelper {
 				// Create a new component with the new text and font style
 				MutableComponent returnComp = Component.literal(newText);
 
-				returnComp.withStyle(style -> style.withFont(font.getLocation()));
+				returnComp.withStyle(style -> style.withFont(new FontDescription.Resource(font.getLocation())));
 				return returnComp;
 			}
 		}

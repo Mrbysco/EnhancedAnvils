@@ -3,6 +3,7 @@ package com.mrbysco.enhancedanvils.client.screen.widget;
 import com.mrbysco.enhancedanvils.util.CustomStringUtil;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.input.CharacterEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,12 +27,12 @@ public class ComponentEditBox extends EditBox {
 	}
 
 	@Override
-	public boolean charTyped(char codePoint, int modifiers) {
+	public boolean charTyped(CharacterEvent event) {
 		if (!this.canConsumeInput()) {
 			return false;
-		} else if (CustomStringUtil.isAllowedCharacter(codePoint)) {
+		} else if (CustomStringUtil.isAllowedCharacter(event.codepoint())) {
 			if (this.isEditable()) {
-				this.insertText(Character.toString(codePoint));
+				this.insertText(event.codepointAsString());
 			}
 
 			return true;

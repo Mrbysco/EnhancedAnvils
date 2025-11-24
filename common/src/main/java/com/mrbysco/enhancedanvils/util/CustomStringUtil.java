@@ -24,8 +24,8 @@ public class CustomStringUtil {
 		return stringbuilder.toString();
 	}
 
-	public static boolean isAllowedCharacter(char character) {
-		return character >= ' ' && character != 127;
+	public static boolean isAllowedCharacter(int character) {
+		return character >= 32 && character != 127;
 	}
 
 	/**

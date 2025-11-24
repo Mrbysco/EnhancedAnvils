@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
@@ -101,7 +102,7 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 			TextFont fontType = fonts.get(i);
 			yPos += 18;
 
-			MutableComponent name = Component.literal(fontType.getName()).withStyle((style -> style.withFont(fontType.getLocation())));
+			MutableComponent name = Component.literal(fontType.getName()).withStyle((style -> style.withFont(new FontDescription.Resource(fontType.getLocation()))));
 			fontButtons[i] = new TypeButton.Builder<>(name, fontType, (button) -> {
 				if (this.name.isEditable()) {
 					// If it already starts with a font replace the font

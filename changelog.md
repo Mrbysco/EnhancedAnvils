@@ -1,1 +1,1 @@
-* Fix anvil menu not opening correctly (fabric)
+* Remove leftover debug log (fabric)

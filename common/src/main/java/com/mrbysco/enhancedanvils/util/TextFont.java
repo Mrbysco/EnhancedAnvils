@@ -1,6 +1,6 @@
 package com.mrbysco.enhancedanvils.util;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,17 +8,17 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 public enum TextFont implements StringRepresentable {
-	DEFAULT("DEFAULT", 'w', ResourceLocation.withDefaultNamespace("default")),
-	UNIFORM("UNIFORM", 'y', ResourceLocation.withDefaultNamespace("uniform")),
-	ALT("ENCHANTMENT", 'x', ResourceLocation.withDefaultNamespace("alt")),
-	ILLAGERALT("ILLAGER", 'z', ResourceLocation.withDefaultNamespace("illageralt"));
+	DEFAULT("DEFAULT", 'w', Identifier.withDefaultNamespace("default")),
+	UNIFORM("UNIFORM", 'y', Identifier.withDefaultNamespace("uniform")),
+	ALT("ENCHANTMENT", 'x', Identifier.withDefaultNamespace("alt")),
+	ILLAGERALT("ILLAGER", 'z', Identifier.withDefaultNamespace("illageralt"));
 
 	private static final Pattern FORMATTING_PATTERN = Pattern.compile("(?i)\u00a7[WXYZ]");
 	private final String name;
 	private final String toString;
-	private final ResourceLocation location;
+	private final Identifier location;
 
-	private TextFont(String name, char code, ResourceLocation location) {
+	private TextFont(String name, char code, Identifier location) {
 		this.name = name;
 		this.toString = "\u00a7" + code;
 		this.location = location;
@@ -28,7 +28,7 @@ public enum TextFont implements StringRepresentable {
 		return this.name.toLowerCase(Locale.ROOT);
 	}
 
-	public ResourceLocation getLocation() {
+	public Identifier getLocation() {
 		return this.location;
 	}
 

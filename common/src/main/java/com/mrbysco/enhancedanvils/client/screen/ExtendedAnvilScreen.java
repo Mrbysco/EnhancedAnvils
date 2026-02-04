@@ -187,7 +187,7 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 			if (!box.isVisible()) return;
 			Component adjustedValue = TextHelper.changeFont(box.getFinalValue());
 			TooltipRenderUtil.renderTooltipBackground(guiGraphics, box.getX() - 58, box.getY() - 40, 168, this.font.lineHeight, null);
-			StringRenderHelper.drawScrollingString(guiGraphics, this.font, adjustedValue,
+			StringRenderHelper.drawScrollingString(guiGraphics, guiGraphics.textRenderer(), this.font, adjustedValue,
 					box.getX() - 58, box.getX() + 110, box.getY() - 40, ARGB.opaque(-1)
 			);
 		}

@@ -11,7 +11,6 @@ public class EnhancedAnvilsFabricClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-			System.out.println(screen.getClass().getName());
 			if (screen.getClass().getName().equals("net.minecraft.client.gui.screens.inventory.AnvilScreen") ||
 					screen.getClass().getName().equals("net.minecraft.class_471")) {
 				AnvilScreen anvilScreen = (AnvilScreen) screen;

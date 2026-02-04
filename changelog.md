@@ -1,1 +1,1 @@
-* Initial multi-loader setup beta
+* Fix anvil menu not opening correctly (fabric)

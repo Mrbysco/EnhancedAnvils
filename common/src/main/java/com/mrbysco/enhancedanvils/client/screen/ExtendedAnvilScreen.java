@@ -8,7 +8,7 @@ import com.mrbysco.enhancedanvils.util.TextFont;
 import com.mrbysco.enhancedanvils.util.TextHelper;
 import com.mrbysco.enhancedanvils.util.TextLore;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
@@ -180,14 +180,14 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		super.render(guiGraphics, mouseX, mouseY, partialTick);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 
 		if (buttonsVisible && menu.getSlot(0).hasItem() && this.name instanceof ComponentEditBox box) {
 			if (!box.isVisible()) return;
 			Component adjustedValue = TextHelper.changeFont(box.getFinalValue());
-			TooltipRenderUtil.renderTooltipBackground(guiGraphics, box.getX() - 58, box.getY() - 40, 168, this.font.lineHeight, null);
-			StringRenderHelper.drawScrollingString(guiGraphics, guiGraphics.textRenderer(), this.font, adjustedValue,
+			TooltipRenderUtil.extractTooltipBackground(graphics, box.getX() - 58, box.getY() - 40, 168, this.font.lineHeight, null);
+			StringRenderHelper.drawScrollingString(graphics, graphics.textRenderer(), this.font, adjustedValue,
 					box.getX() - 58, box.getX() + 110, box.getY() - 40, ARGB.opaque(-1)
 			);
 		}

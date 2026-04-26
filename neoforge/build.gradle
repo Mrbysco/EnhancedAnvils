@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id "net.neoforged.moddev" version "2.0.140"
+    id "net.neoforged.moddev" version "2.0.141"
     id 'net.darkhax.curseforgegradle'
     id 'com.modrinth.minotaur'
 }
@@ -15,17 +15,11 @@ base {
 neoForge {
     version = "${neo_version}"
 
-    parchment {
-        minecraftVersion = "${parchment_minecraft_version}"
-        mappingsVersion = "${parchment_mapping_version}"
-    }
-
     // Automatically enable neoforge AccessTransformers if the file exists
-    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    def at = project(":neoforge").file('src/main/resources/META-INF/accesstransformer.cfg')
     if (at.exists()) {
         accessTransformers.from(at.absolutePath)
     }
-    def commonResources = project(':common').file("src/main/resources")
 
     runs {
         configureEach { model ->
@@ -34,8 +28,6 @@ neoForge {
 
             //Limit ram usage for the dev environment to 4GB
             jvmArguments.add('-Xmx4G')
-
-            jvmArguments.add('-Dmixin.debug.export=true')
 
             if (model.project.javaToolchains.launcherFor(java.toolchain).map { it.metadata.vendor }.getOrElse("").contains("JetBrains")) {
                 jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
@@ -54,7 +46,6 @@ neoForge {
     mods {
         "${mod_id}" {
             sourceSet sourceSets.main
-            sourceSet sourceSets.test
         }
     }
 }
@@ -112,14 +103,11 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.releaseType = 'release'
         mainFile.addGameVersion "NeoForge"
         mainFile.addGameVersion "${minecraft_version}"
-        mainFile.addGameVersion "Java 21"
-        mainFile.addEnvironment('Client')
+        mainFile.addGameVersion "Java 25"
+        mainFile.addEnvironment('Server', 'Client')
 
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
-
-//        mainFile.addRequirement()
-//        mainFile.addOptional()
     }
 }
 
@@ -134,9 +122,5 @@ if (System.getenv().MODRINTH_KEY) {
         changelog = file("$project.rootDir/changelog.md").text
         gameVersions = ["${minecraft_version}"]
         loaders = ["neoforge"]
-
-        dependencies {
-
-        }
     }
 }

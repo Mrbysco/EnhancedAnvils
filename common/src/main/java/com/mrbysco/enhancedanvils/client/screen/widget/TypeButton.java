@@ -1,6 +1,6 @@
 package com.mrbysco.enhancedanvils.client.screen.widget;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.network.chat.Component;
@@ -24,9 +24,9 @@ public class TypeButton<T extends Enum<T>> extends Button {
 	}
 
 	@Override
-	protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		this.renderDefaultSprite(guiGraphics);
-		this.renderDefaultLabel(guiGraphics.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE));
+	protected void extractContents(GuiGraphicsExtractor graphics, int i, int i1, float v) {
+		this.extractDefaultSprite(graphics);
+		this.extractDefaultLabel(graphics.textRenderer());
 	}
 
 	public static class Builder<T extends Enum<T>> {

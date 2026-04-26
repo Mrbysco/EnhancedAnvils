@@ -1,8 +1,7 @@
 package com.mrbysco.enhancedanvils.client.screen.widget;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
@@ -24,8 +23,7 @@ public class FormatButton extends Button {
 	}
 
 	@Override
-	protected void renderContents(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-		Minecraft minecraft = Minecraft.getInstance();
+	protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
 		guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		if (this.chatFormatting.isColor()) {
 			Integer color = this.chatFormatting.getColor();
@@ -41,7 +39,7 @@ public class FormatButton extends Button {
 		}
 		int i = this.active ? 16777215 : 10526880;
 		var message = getMessage().copy().withStyle(style -> style.withColor(i)); // TODO 1.21.11: Inefficient, check how Vanilla does this
-		this.renderScrollingStringOverContents(guiGraphics.textRendererForWidget(this, GuiGraphics.HoveredTextEffects.NONE), message, 2);
+		this.extractScrollingStringOverContents(guiGraphics.textRendererForWidget(this, GuiGraphicsExtractor.HoveredTextEffects.NONE), message, 2);
 	}
 
 

@@ -42,13 +42,13 @@ public class ComponentEditBox extends EditBox {
 	}
 
 	@Override
-	public void insertText(String textToWrite) {
+	public void insertText(String input) {
 		int i = Math.min(this.cursorPos, this.highlightPos);
 		int j = Math.max(this.cursorPos, this.highlightPos);
 		String filteredValue = CustomStringUtil.fullyFiltered(this.value);
 		int k = this.maxLength - filteredValue.length() - (i - j);
 		if (k > 0) {
-			String s = CustomStringUtil.filterText(textToWrite);
+			String s = CustomStringUtil.filterText(input);
 			int l = s.length();
 			if (k < l) {
 				if (Character.isHighSurrogate(s.charAt(k - 1))) {
@@ -59,31 +59,26 @@ public class ComponentEditBox extends EditBox {
 				l = k;
 			}
 
-			String s1 = new StringBuilder(this.value).replace(i, j, s).toString();
-			if (this.filter.test(s1)) {
-				this.value = s1;
-				this.setCursorPosition(i + l);
-				this.setHighlightPos(this.cursorPos);
-				this.onValueChange(this.value);
-			}
+			this.value = new StringBuilder(this.value).replace(i, j, s).toString();
+			this.setCursorPosition(i + l);
+			this.setHighlightPos(this.cursorPos);
+			this.onValueChange(this.value);
 		}
 	}
 
 	@Override
-	public void setValue(String text) {
-		String formattedString = CustomStringUtil.fullyFiltered(text);
-		if (this.filter.test(formattedString)) {
-			if (formattedString.length() > this.maxLength) {
-				this.value = text.substring(0, this.maxLength);
-			} else {
-				this.value = text;
-			}
-
-			this.moveCursorToEnd(false);
-			this.setHighlightPos(this.cursorPos);
-			this.onValueChange(text);
+	public void setValue(String value) {
+		String formattedString = CustomStringUtil.fullyFiltered(value);
+		if (formattedString.length() > this.maxLength) {
+			this.value = value.substring(0, this.maxLength);
+		} else {
+			this.value = value;
 		}
-		this.finalValue = Component.literal(text);
+
+		this.moveCursorToEnd(false);
+		this.setHighlightPos(this.cursorPos);
+		this.onValueChange(value);
+		this.finalValue = Component.literal(value);
 	}
 
 	@Override

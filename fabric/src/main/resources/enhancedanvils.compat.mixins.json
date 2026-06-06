@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.4",
+  "package": "com.mrbysco.enhancedanvils.mixin",
+  "plugin": "com.mrbysco.enhancedanvils.plugin.ModelBrowserMixinPlugin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "ModelBrowserAnvilScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

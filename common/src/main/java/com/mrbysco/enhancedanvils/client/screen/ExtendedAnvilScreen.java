@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
@@ -191,5 +192,20 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 					box.getX() - 58, box.getX() + 110, box.getY() - 40, ARGB.opaque(-1)
 			);
 		}
+	}
+
+	@Override
+	public boolean keyPressed(KeyEvent event) {
+		return super.keyPressed(event);
+	}
+
+	@Override
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+		super.extractBackground(graphics, mouseX, mouseY, a);
+	}
+
+	@Override
+	protected void extractLabels(GuiGraphicsExtractor graphics, int xm, int ym) {
+		super.extractLabels(graphics, xm, ym);
 	}
 }

@@ -1,1 +1,1 @@
-* Update to 26.1.2
+* Add support for [Item Model Browser](https://modrinth.com/mod/model-browser)

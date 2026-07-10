@@ -1,1 +1,1 @@
-* Add support for [Item Model Browser](https://modrinth.com/mod/model-browser)
+* Fix server-side crash (NeoForge)

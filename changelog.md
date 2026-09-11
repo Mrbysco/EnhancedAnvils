@@ -1,1 +1,1 @@
-* Fix server-side crash (NeoForge)
+* Update to 26.2

@@ -17,7 +17,7 @@ public class EnhancedAnvilsFabricClient implements ClientModInitializer {
 				AnvilMenu menu = anvilScreen.getMenu();
 				Component title = anvilScreen.getTitle();
 				screen.removed();
-				client.setScreen(new ExtendedAnvilScreen(menu, client.player.getInventory(), title));
+				client.gui.setScreen(new ExtendedAnvilScreen(menu, client.player.getInventory(), title));
 			}
 		});
 	}

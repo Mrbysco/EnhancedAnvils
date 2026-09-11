@@ -91,7 +91,7 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 					this.name.insertText(format.toString());
 				this.setFocused(this.name);
 			}).bounds(xPos, yPos, 16, 16).build();
-			formattingButtons[i].setTooltip(Tooltip.create(Component.literal(format.getName())));
+			formattingButtons[i].setTooltip(Tooltip.create(Component.literal(format.name())));
 			formattingButtons[i].active = false;
 			formattingButtons[i].visible = false;
 			this.addRenderableWidget(formattingButtons[i]);

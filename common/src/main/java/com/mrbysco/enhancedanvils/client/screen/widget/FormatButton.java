@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.util.ARGB;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,17 +26,16 @@ public class FormatButton extends Button {
 	@Override
 	protected void extractContents(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTick) {
 		guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
-		if (this.chatFormatting.isColor()) {
-			Integer color = this.chatFormatting.getColor();
-			if (color != null) {
-				if (!this.isActive()) {
-					color = ARGB.color(120, ARGB.red(color), ARGB.green(color), ARGB.blue(color));
-				} else {
-					color = ARGB.opaque(color);
-				}
-				guiGraphics.fill(this.getX() + 2, this.getY() + 2,
-						this.getX() + this.getWidth() - 2, this.getY() + this.getHeight() - 2, color);
+		TextColor textColor = TextColor.fromLegacyFormat(this.chatFormatting);
+		if (textColor != null) {
+			int color = textColor.getValue();
+			if (!this.isActive()) {
+				color = ARGB.color(120, ARGB.red(color), ARGB.green(color), ARGB.blue(color));
+			} else {
+				color = ARGB.opaque(color);
 			}
+			guiGraphics.fill(this.getX() + 2, this.getY() + 2,
+					this.getX() + this.getWidth() - 2, this.getY() + this.getHeight() - 2, color);
 		}
 		int i = this.active ? 16777215 : 10526880;
 		var message = getMessage().copy().withStyle(style -> style.withColor(i)); // TODO 1.21.11: Inefficient, check how Vanilla does this

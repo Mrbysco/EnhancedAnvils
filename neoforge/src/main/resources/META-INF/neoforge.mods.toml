@@ -15,7 +15,7 @@ Allows you to use colors / fonts and set lore when renaming items in an anvil.
 [[dependencies.enhancedanvils]]
 modId="minecraft"
 type="required"
-versionRange="[26.1.1,)"
+versionRange="[26.2,)"
 ordering="NONE"
 side="BOTH"
 [[mixins]]

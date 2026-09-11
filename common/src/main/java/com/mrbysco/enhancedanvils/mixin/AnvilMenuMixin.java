@@ -1,6 +1,7 @@
 package com.mrbysco.enhancedanvils.mixin;
 
 import com.mrbysco.enhancedanvils.util.CustomStringUtil;
+import com.mrbysco.enhancedanvils.util.StackHelper;
 import com.mrbysco.enhancedanvils.util.TextHelper;
 import com.mrbysco.enhancedanvils.util.TextLore;
 import net.minecraft.core.component.DataComponents;
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -40,23 +42,6 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 		super(menuType, containerId, inventory, access, slotDefinition);
 	}
 
-	@ModifyArg(method = "setItemName(Ljava/lang/String;)Z",
-			slice = @Slice(
-					from = @At(ordinal = 0, value = "INVOKE", target = "Lnet/minecraft/world/inventory/AnvilMenu;getSlot(I)Lnet/minecraft/world/inventory/Slot;"),
-					to = @At(ordinal = 0, value = "INVOKE", target = "Lnet/minecraft/world/inventory/AnvilMenu;createResult()V")
-			),
-			at = @At(
-					value = "INVOKE",
-					target = "Lnet/minecraft/world/item/ItemStack;set(Lnet/minecraft/core/component/DataComponentType;Ljava/lang/Object;)Ljava/lang/Object;"),
-			index = 1)
-	private Object enhancedanvils$setItemName(Object value) {
-		if (value instanceof Component component) {
-			component = TextHelper.changeFont(component);
-			return component;
-		}
-		return value;
-	}
-
 	@Inject(method = "setItemName(Ljava/lang/String;)Z", at = @At(value = "HEAD"), cancellable = true)
 	public void enhancedanvils$setItemName2(String itemName, CallbackInfoReturnable<Boolean> cir) {
 		if (TextLore.hasFormatting(itemName)) {
@@ -70,6 +55,18 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 			this.createResult();
 			cir.setReturnValue(true);
 		}
+	}
+
+	@Inject(method = "createResult()V", at = @At("RETURN"))
+	public void enhancedanvils$fixNameFont(CallbackInfo ci) {
+		ItemStack result = this.resultSlots.getItem(0);
+		StackHelper.changeFont(result, itemName);
+	}
+
+	@Inject(method = "createResult()V", at = @At("RETURN"))
+	public void enhancedanvils$changeFont(CallbackInfo ci) {
+		ItemStack result = this.resultSlots.getItem(0);
+		StackHelper.changeFont(result, itemName);
 	}
 
 	@Inject(method = "createResult()V",

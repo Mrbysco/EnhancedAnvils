@@ -55,6 +55,11 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 	@Shadow
 	protected abstract void subInit();
 
+	@Inject(method = "subInit", at = @At("TAIL"))
+	private void setMaxLength(CallbackInfo ci) {
+		this.name.setMaxLength(1024);
+	}
+
 	@Shadow
 	private Button menuButton;
 

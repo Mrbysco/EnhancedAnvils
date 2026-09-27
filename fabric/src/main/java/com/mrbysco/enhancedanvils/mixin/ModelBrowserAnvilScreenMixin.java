@@ -135,10 +135,10 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 	}
 
 	@Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-	private void interceptKeys(KeyEvent input, CallbackInfoReturnable<Boolean> cir) {
+	private void interceptKeys(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
 		if (modelBrowserWidget == null || !modelBrowserWidget.isOpen())
 			return;
-		if (input.isEscape()) {
+		if (event.isEscape()) {
 			Minecraft client = Minecraft.getInstance();
 			if (client != null && client.player != null) {
 				client.player.closeContainer();
@@ -148,23 +148,23 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 		}
 
 		if (modelBrowserWidget.getSearchField().canConsumeInput()) {
-			modelBrowserWidget.getSearchField().keyPressed(input);
+			modelBrowserWidget.getSearchField().keyPressed(event);
 			cir.setReturnValue(true);
 		}
 	}
 
 	@Inject(method = "extractBackground", at = @At("TAIL"))
-	private void drawShiftedRecipeBook(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+	private void drawShiftedRecipeBook(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a, CallbackInfo ci) {
 		if (modelBrowserWidget == null || !modelBrowserWidget.isOpen())
 			return;
-		modelBrowserWidget.drawBackground(ctx);
+		modelBrowserWidget.drawBackground(graphics);
 	}
 
 	@Inject(method = "extractLabels", at = @At("TAIL"))
-	private void drawModelGrid(GuiGraphicsExtractor ctx, int mouseX, int mouseY, CallbackInfo ci) {
+	private void drawModelGrid(GuiGraphicsExtractor graphics, int xm, int ym, CallbackInfo ci) {
 		if (modelBrowserWidget == null || !modelBrowserWidget.isOpen())
 			return;
-		modelBrowserWidget.drawForeground(ctx, mouseX, mouseY);
+		modelBrowserWidget.drawForeground(graphics, xm, ym);
 	}
 
 	@Override

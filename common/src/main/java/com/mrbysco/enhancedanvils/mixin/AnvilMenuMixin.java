@@ -5,7 +5,6 @@ import com.mrbysco.enhancedanvils.util.StackHelper;
 import com.mrbysco.enhancedanvils.util.TextHelper;
 import com.mrbysco.enhancedanvils.util.TextLore;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
@@ -19,11 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -43,12 +39,12 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 	}
 
 	@Inject(method = "setItemName(Ljava/lang/String;)Z", at = @At(value = "HEAD"), cancellable = true)
-	public void enhancedanvils$setItemName2(String itemName, CallbackInfoReturnable<Boolean> cir) {
-		if (TextLore.hasFormatting(itemName)) {
-			this.itemName = itemName;
+	public void enhancedanvils$setItemName2(String name, CallbackInfoReturnable<Boolean> cir) {
+		if (TextLore.hasFormatting(name)) {
+			this.itemName = name;
 			if (this.getSlot(2).hasItem()) {
 				ItemStack itemstack = this.getSlot(2).getItem();
-				TextHelper.setLore(itemstack, itemName);
+				TextHelper.setLore(itemstack, name);
 				this.broadcastChanges();
 			}
 
@@ -87,8 +83,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
 	@Inject(method = "validateName(Ljava/lang/String;)Ljava/lang/String;",
 			at = @At(value = "HEAD"), cancellable = true)
-	private static void enhancedanvils$validateName(String itemName, CallbackInfoReturnable<String> cir) {
-		String s = CustomStringUtil.filterText(itemName);
+	private static void enhancedanvils$validateName(String name, CallbackInfoReturnable<String> cir) {
+		String s = CustomStringUtil.filterText(name);
 		cir.setReturnValue(CustomStringUtil.fullyFiltered(s).length() <= 50 ? TextLore.stripFormatting(s) : null);
 	}
 }

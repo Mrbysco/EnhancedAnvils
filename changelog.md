@@ -1,1 +1,1 @@
-* Remove leftover debug log (fabric)
+* Fix server-side crash (neoforge)

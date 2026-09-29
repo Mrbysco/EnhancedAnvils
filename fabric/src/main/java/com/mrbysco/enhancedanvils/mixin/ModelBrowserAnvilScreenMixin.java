@@ -135,10 +135,10 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 	}
 
 	@Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
-	private void interceptKeys(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
+	private void interceptKeys(KeyEvent input, CallbackInfoReturnable<Boolean> cir) {
 		if (modelBrowserWidget == null || !modelBrowserWidget.isOpen())
 			return;
-		if (event.isEscape()) {
+		if (input.isEscape()) {
 			Minecraft client = Minecraft.getInstance();
 			if (client != null && client.player != null) {
 				client.player.closeContainer();
@@ -148,7 +148,7 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 		}
 
 		if (modelBrowserWidget.getSearchField().canConsumeInput()) {
-			modelBrowserWidget.getSearchField().keyPressed(event);
+			modelBrowserWidget.getSearchField().keyPressed(input);
 			cir.setReturnValue(true);
 		}
 	}
@@ -161,10 +161,10 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 	}
 
 	@Inject(method = "extractLabels", at = @At("TAIL"))
-	private void drawModelGrid(GuiGraphicsExtractor graphics, int xm, int ym, CallbackInfo ci) {
+	private void drawModelGrid(GuiGraphicsExtractor graphics, int mouseX, int mouseY, CallbackInfo ci) {
 		if (modelBrowserWidget == null || !modelBrowserWidget.isOpen())
 			return;
-		modelBrowserWidget.drawForeground(graphics, xm, ym);
+		modelBrowserWidget.drawForeground(graphics, mouseX, mouseY);
 	}
 
 	@Override
@@ -195,9 +195,10 @@ public abstract class ModelBrowserAnvilScreenMixin extends AnvilScreen {
 		return super.mouseReleased(click);
 	}
 
-	@Inject(method = "extractRenderState", at = @At("HEAD"))
-	public void drawWidget(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
+	@Override
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
 		if (modelBrowserWidget != null && modelBrowserWidget.isOpen())
 			modelBrowserWidget.extractRenderState(graphics, mouseX, mouseY, partialTick);
+		super.extractRenderState(graphics, mouseX, mouseY, partialTick);
 	}
 }

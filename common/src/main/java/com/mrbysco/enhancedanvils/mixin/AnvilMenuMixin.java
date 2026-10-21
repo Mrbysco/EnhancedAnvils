@@ -1,5 +1,7 @@
 package com.mrbysco.enhancedanvils.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.mrbysco.enhancedanvils.util.CustomStringUtil;
 import com.mrbysco.enhancedanvils.util.StackHelper;
 import com.mrbysco.enhancedanvils.util.TextHelper;
@@ -21,9 +23,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(AnvilMenu.class)
+@Mixin(value = AnvilMenu.class, priority = 500)
 public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 
 	@Shadow
@@ -38,8 +39,8 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 		super(menuType, containerId, inventory, access, slotDefinition);
 	}
 
-	@Inject(method = "setItemName(Ljava/lang/String;)Z", at = @At(value = "HEAD"), cancellable = true)
-	public void enhancedanvils$setItemName2(String name, CallbackInfoReturnable<Boolean> cir) {
+	@WrapMethod(method = "setItemName")
+	private boolean enhancedanvils$setItemName(String name, Operation<Boolean> original) {
 		if (TextLore.hasFormatting(name)) {
 			this.itemName = name;
 			if (this.getSlot(2).hasItem()) {
@@ -49,14 +50,9 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 			}
 
 			this.createResult();
-			cir.setReturnValue(true);
+			return true;
 		}
-	}
-
-	@Inject(method = "createResult()V", at = @At("RETURN"))
-	public void enhancedanvils$fixNameFont(CallbackInfo ci) {
-		ItemStack result = this.resultSlots.getItem(0);
-		StackHelper.changeFont(result, itemName);
+		return original.call(name);
 	}
 
 	@Inject(method = "createResult()V", at = @At("RETURN"))
@@ -81,10 +77,12 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
 		}
 	}
 
-	@Inject(method = "validateName(Ljava/lang/String;)Ljava/lang/String;",
-			at = @At(value = "HEAD"), cancellable = true)
-	private static void enhancedanvils$validateName(String name, CallbackInfoReturnable<String> cir) {
+	@WrapMethod(method = "validateName")
+	private static String enhancedanvils$validateName(String name, Operation<String> original) {
 		String s = CustomStringUtil.filterText(name);
-		cir.setReturnValue(CustomStringUtil.fullyFiltered(s).length() <= 50 ? TextLore.stripFormatting(s) : null);
+		if (CustomStringUtil.fullyFiltered(s).length() <= 50) {
+			return TextLore.stripFormatting(s);
+		}
+		return original.call(name);
 	}
 }

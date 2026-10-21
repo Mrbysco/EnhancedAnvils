@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AnvilScreen;
 import net.minecraft.client.gui.screens.inventory.tooltip.TooltipRenderUtil;
 import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.MutableComponent;
@@ -155,6 +156,9 @@ public class ExtendedAnvilScreen extends AnvilScreen {
 	@Override
 	protected void containerTick() {
 		super.containerTick();
+		if (this.getFocused() instanceof Button && this.name.isEditable()) {
+			this.setFocused(this.name);
+		}
 		if (this.buttonsVisible) {
 			this.setButtonsVisible(true, formattingButtons, fontButtons, loreButtons);
 			this.setButtonsActive(this.name.isEditable(), formattingButtons, fontButtons, loreButtons);
